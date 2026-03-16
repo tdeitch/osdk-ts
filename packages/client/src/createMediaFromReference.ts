@@ -93,7 +93,7 @@ export function createMediaFromReference(
         client,
         mediaSetRid,
         mediaItemRid,
-        transformation as FoundryTransformRequest,
+        transformation as unknown as FoundryTransformRequest,
         { preview: true },
         token ? { Token: token } : undefined,
       );

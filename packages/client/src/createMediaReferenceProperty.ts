@@ -101,7 +101,7 @@ export class MediaReferencePropertyImpl implements Media {
       this.#client,
       mediaSetRid,
       mediaItemRid,
-      transformation as FoundryTransformRequest,
+      transformation as unknown as FoundryTransformRequest,
       { preview: true },
       token ? { Token: token } : undefined,
     );
