@@ -218,7 +218,7 @@ export function useOsdkObject<
     };
 
     if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
+      // eslint-disable-next-line
       const prevConfig = React.useRef(rawShape);
       if (prevConfig.current !== rawShape) {
         // eslint-disable-next-line no-console
@@ -232,19 +232,19 @@ export function useOsdkObject<
     const isPreBuilt = typeof rawShape === "object" && rawShape !== null
       && "__shapeId" in rawShape;
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line
     const configRef = React.useRef(rawShape);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line
     const shapeDef = React.useMemo(() => {
       const c = configRef.current;
       if (typeof c === "object" && c !== null && "__shapeId" in c) {
         return c as ShapeDefinition<Q>;
       }
       return configToShapeDefinition(type, c as InlineShapeConfig<Q>);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // eslint-disable-next-line
     }, [type]);
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line
     const result = useShapeSingleInternal(
       shapeDef,
       primaryKey,
@@ -288,7 +288,7 @@ export function useOsdkObject<
   }
 
   // Original overloads (instance or type+pk)
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  // eslint-disable-next-line
   return useOsdkObjectBase(
     args as
       | [obj: Osdk.Instance<Q>, enabled?: boolean]
@@ -316,7 +316,7 @@ function useOsdkObjectBase<Q extends ObjectOrInterfaceDefinition>(
   const isInstanceSignature = "$objectType" in args[0];
 
   const optionsArg = !isInstanceSignature
-      && args[2] != null
+      && args[2] !== null
       && typeof args[2] === "object"
     ? args[2] as { $select?: readonly string[]; enabled?: boolean }
     : undefined;

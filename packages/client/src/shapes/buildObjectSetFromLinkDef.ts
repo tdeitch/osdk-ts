@@ -140,7 +140,7 @@ function resolveSymbolBindings(
   if (Array.isArray(value)) {
     return value.map((item) => resolveSymbolBindings(item, sourcePrimaryKey));
   }
-  if (value !== null && typeof value === "object") {
+  if (value != null && typeof value === "object") {
     const result: Record<string, unknown> = {};
     for (const [key, val] of Object.entries(value)) {
       result[key] = resolveSymbolBindings(val, sourcePrimaryKey);
