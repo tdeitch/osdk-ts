@@ -29,14 +29,11 @@ import type {
   ColumnDefinition,
   ColumnDefinitionLocator,
 } from "../ObjectTableApi.js";
+import type { AsyncCellData } from "../utils/types.js";
 
 export interface FunctionColumnData {
   [columnId: string]: {
-    [objectPrimaryKey: string]: {
-      data?: any;
-      loading: boolean;
-      error?: Error;
-    };
+    [objectPrimaryKey: string]: AsyncCellData;
   };
 }
 
@@ -148,20 +145,29 @@ export function useFunctionColumnsData<
     abortControllerRef.current = abortController;
 
     const fetchAllFunctionColumns = async () => {
-      const newData: FunctionColumnData = {};
+      // Initialize loading state only for new objects
+      setData(prev => {
+        const newData = { ...prev };
 
-      // Initialize loading state for all columns and objects
-      functionColumnConfigs.forEach(config => {
-        config.columnIds.forEach(({ columnId }) => {
-          newData[columnId] = {};
-          objects.forEach(obj => {
-            const key = String(obj.$primaryKey);
-            newData[columnId][key] = { loading: true };
+        functionColumnConfigs.forEach(config => {
+          config.columnIds.forEach(({ columnId }) => {
+            // Initialize column if it doesn't exist
+            if (!newData[columnId]) {
+              newData[columnId] = {};
+            }
+
+            objects.forEach(obj => {
+              const key = String(obj.$primaryKey);
+              // Only set loading state if this object's data doesn't already exist
+              if (!newData[columnId][key]) {
+                newData[columnId][key] = { isLoading: true };
+              }
+            });
           });
         });
-      });
 
-      setData(newData);
+        return newData;
+      });
 
       // Process query results as they complete
       for await (
@@ -190,7 +196,7 @@ export function useFunctionColumnsData<
                     error: error instanceof Error
                       ? error
                       : new Error(String(error)),
-                    loading: false,
+                    isLoading: false,
                   },
                 },
               }));
@@ -224,7 +230,7 @@ export function useFunctionColumnsData<
                     ...prev[columnId],
                     [key]: {
                       data: cellData,
-                      loading: false,
+                      isLoading: false,
                     },
                   },
                 }));
@@ -235,7 +241,7 @@ export function useFunctionColumnsData<
       }
     };
 
-    fetchAllFunctionColumns();
+    void fetchAllFunctionColumns();
 
     return () => {
       abortController.abort();

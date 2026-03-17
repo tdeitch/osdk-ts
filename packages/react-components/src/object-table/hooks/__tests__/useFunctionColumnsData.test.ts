@@ -136,22 +136,22 @@ describe("useFunctionColumnsData", () => {
         useFunctionColumnsData(mockObjectSet, mockObjects, columnDefinitions),
     );
 
-    // Initially shows loading state
+    // Initially shows isLoading state
     expect(result.current).toEqual({
       testColumn: {
-        obj1: { loading: true },
-        obj2: { loading: true },
+        obj1: { isLoading: true },
+        obj2: { isLoading: true },
       },
     });
 
     await waitFor(() => {
-      expect(result.current.testColumn.obj1.loading).toBe(false);
+      expect(result.current.testColumn.obj1.isLoading).toBe(false);
     });
 
     expect(result.current).toEqual({
       testColumn: {
-        obj1: { data: { value: "result1" }, loading: false },
-        obj2: { data: { value: "result2" }, loading: false },
+        obj1: { data: { value: "result1" }, isLoading: false },
+        obj2: { data: { value: "result2" }, isLoading: false },
       },
     });
 
@@ -205,12 +205,12 @@ describe("useFunctionColumnsData", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.testColumn.obj1.loading).toBe(false);
+      expect(result.current.testColumn.obj1.isLoading).toBe(false);
     });
 
     expect(result.current).toEqual({
       testColumn: {
-        obj1: { data: "active", loading: false },
+        obj1: { data: "active", isLoading: false },
       },
     });
   });
@@ -277,15 +277,15 @@ describe("useFunctionColumnsData", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.statusColumn.obj1.loading).toBe(false);
+      expect(result.current.statusColumn.obj1.isLoading).toBe(false);
     });
 
     expect(result.current).toEqual({
       statusColumn: {
-        obj1: { data: "active", loading: false },
+        obj1: { data: "active", isLoading: false },
       },
       timestampColumn: {
-        obj1: { data: "2024-01-01", loading: false },
+        obj1: { data: "2024-01-01", isLoading: false },
       },
     });
 
@@ -361,15 +361,15 @@ describe("useFunctionColumnsData", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.statusColumn.obj1.loading).toBe(false);
+      expect(result.current.statusColumn.obj1.isLoading).toBe(false);
     });
 
     expect(result.current).toEqual({
       statusColumn: {
-        obj1: { data: "active", loading: false },
+        obj1: { data: "active", isLoading: false },
       },
       timestampColumn: {
-        obj1: { data: "2024-01-01", loading: false },
+        obj1: { data: "2024-01-01", isLoading: false },
       },
     });
 
@@ -405,19 +405,19 @@ describe("useFunctionColumnsData", () => {
 
     expect(result.current).toEqual({
       testColumn: {
-        obj1: { loading: true },
-        obj2: { loading: true },
+        obj1: { isLoading: true },
+        obj2: { isLoading: true },
       },
     });
 
     await waitFor(() => {
-      expect(result.current.testColumn.obj1.loading).toBe(false);
+      expect(result.current.testColumn.obj1.isLoading).toBe(false);
     });
 
     expect(result.current).toEqual({
       testColumn: {
-        obj1: { data: { value: "result1" }, loading: false },
-        obj2: { data: undefined, loading: false },
+        obj1: { data: { value: "result1" }, isLoading: false },
+        obj2: { data: undefined, isLoading: false },
       },
     });
 
@@ -436,13 +436,13 @@ describe("useFunctionColumnsData", () => {
     );
 
     await waitFor(() => {
-      expect(result.current.testColumn.obj1.loading).toBe(false);
+      expect(result.current.testColumn.obj1.isLoading).toBe(false);
     });
 
     expect(result.current).toEqual({
       testColumn: {
-        obj1: { error: mockError, loading: false },
-        obj2: { error: mockError, loading: false },
+        obj1: { error: mockError, isLoading: false },
+        obj2: { error: mockError, isLoading: false },
       },
     });
   });
